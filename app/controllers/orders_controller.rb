@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
 
     @order.status = 'Pending'
 
-    @order.charge = @order.return_time.to_i * car.price.to_i
+    # @order.charge = @order.return_time.to_i * car.price.to_i
     binding.pry
     respond_to do |format|
       if @order.save
