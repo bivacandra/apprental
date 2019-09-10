@@ -1,0 +1,72 @@
+<h2>Orders</h2>
+
+<h3>Car Information: <%= Car.find(@order.car_id).name %></h3>
+
+<%= form_with(model: @order, local: true) do |form| %>
+    <% if @order.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+          <ul>
+            <% order.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :real_checkout_time %>
+      <%= form.datetime_select :real_checkout_time, id: :order_real_checkout_time, :default => {:hour => Time.zone.now.hour, :minute => Time.zone.now.min}, :disable => true %>
+    </div>
+
+    <div>
+      <%= form.label :date_rental %>
+      <%= form.datetime_select :checkout_time, id: :order_checkout_time, :default => {:hour => Time.zone.now.hour} %>
+      <p>*Silahkan order 1 hari sebelum melakukan checkout</p>
+    </div>
+
+    <div class="field">
+      <%= form.label :rental_periode %>
+      <%= form.select :return_time,  options_for_select([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1), {:class => 'form-control', :prompt => ''}  %>
+      <%= form.label :day %>
+    </div>
+
+    <div>
+      <%= form.label :name %>
+      <%= form.text_field :name, id: :order_name %>
+    </div>
+
+    <div>
+        <%= form.label :tel %>
+        <%= form.text_field :tel, id: :order_tel %>
+    </div>
+
+    <div>
+        <%= form.label :email %>
+        <%= form.text_field :email, id: :order_email %>
+    </div>
+
+    <div>
+        <%= form.label :address %>
+        <%= form.text_field :address, id: :order_address %>
+    </div>
+
+    <div>
+      <%= form.label :guarantee %>
+      <%= form.select :guarantee, Order.guarantees.keys %>
+    </div>
+
+    <div class="field">
+        <%= form.label :pay_type %>
+        <%= form.select :pay_type, Order.pay_types.keys %>
+      </div>
+
+    <div>
+      <%= form.hidden_field :car_id, id: :order_car_id, readonly: true %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Confirm Order", data: { confirm: "Are you sure?" } %>
+    </div>
+<% end %>
