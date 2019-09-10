@@ -32,8 +32,7 @@ class OrdersController < ApplicationController
 
     @order.status = 'Pending'
 
-    # @order.charge = @order.return_time.to_i * car.price.to_i
-    binding.pry
+    @order.charge = ((Integer(order_params[:return_time]).day)/(60*60*24)) * car.price
     respond_to do |format|
       if @order.save
         car.update_attribute(:status, 'Pending')
