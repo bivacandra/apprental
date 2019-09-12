@@ -17,7 +17,7 @@
 
     <div class="field">
       <%= form.label :real_checkout_time %>
-      <%= form.datetime_select :real_checkout_time, id: :order_real_checkout_time, :default => {:hour => Time.zone.now.hour, :minute => Time.zone.now.min}, :disable => true %>
+      <%= form.datetime_select :real_checkout_time, id: :order_real_checkout_time, :default => {:hour => Time.now.hour, :minute => Time.now.min}, :disable => true %>
     </div>
 
     <div>
@@ -64,7 +64,7 @@
 
     <div>
       <%= form.hidden_field :car_id, id: :order_car_id, readonly: true %>
-    </div>
+    </div>  
 
     <div class="actions">
       <%= form.submit "Confirm Order", data: { confirm: "Are you sure?" } %>

@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     car = Car.find(@order.car_id)
-    @order.real_checkout_time = Time.zone.now
+    @order.real_checkout_time = Time.now.strftime("%Y%m%dT%H%M%S")
     @order.return_time = @order.checkout_time + Integer(order_params[:return_time]).day
     if current_user != nil
       @order.user_id = current_user.id
@@ -33,17 +33,36 @@ class OrdersController < ApplicationController
     @order.status = 'Pending'
 
     @order.charge = ((Integer(order_params[:return_time]).day)/(60*60*24)) * car.price
-    respond_to do |format|
-      if @order.save
-        OrderNotificationMailer.order_notification_email(@order).deliver
+    binding.pry
+    if @order.save
+        # OrderNotificationMailer.order_notification_email(@order).deliver
         car.update_attribute(:status, 'Pending')
-        format.html {redirect_to cars_path, notice: 'Thank you for order'}
-        format.json {render :show, status: :created, location: @order}
+        # format.html {redirect_to cars_path, notice: 'Thank you for order'}
+        result = process_payment(@order.real_checkout_time, @order.charge)
+        redirect_to result.redirect_url
       else
         format.html {render :new}
         format.json {renser json: @orders.errors, status: :unprocessable_entity}
       end
-    end
+  end
+
+  def process_payment(order_id, charge)
+    @result = Veritrans.create_widget_token(
+      transaction_details: {
+        order_id: order_id,
+        gross_amount: charge,
+      },
+      customer_details: {
+        email: @order.email
+      },
+      # expiry: {
+      #   start_time: Time.now.to_s,
+      #   # unit: (VariableSetting.get_value("Expiry Duration") || "minute"),
+      #   duration: expiration,
+      # },
+      credit_card: { secure: true },
+    )
+    return @result
   end
 
   def return
