@@ -35,6 +35,7 @@ class OrdersController < ApplicationController
     @order.charge = ((Integer(order_params[:return_time]).day)/(60*60*24)) * car.price
     respond_to do |format|
       if @order.save
+        OrderNotificationMailer.order_notification_email(@order).deliver
         car.update_attribute(:status, 'Pending')
         format.html {redirect_to cars_path, notice: 'Thank you for order'}
         format.json {render :show, status: :created, location: @order}
@@ -42,6 +43,19 @@ class OrdersController < ApplicationController
         format.html {render :new}
         format.json {renser json: @orders.errors, status: :unprocessable_entity}
       end
+    end
+  end
+
+  def return
+    @order = Order.find(params[:id])
+    car = Car.find[@order.car_id]
+    @order.update_attribute('status', 'returned')
+    @order.update_attribute('real_return_time', Time.zone.now)
+    car.update_attribute('status', 'available')
+
+    respond_to do |format|
+      format.html { redirect_to @order, notice: 'Order was succesfully returned.' }
+      format.json { render :show, status: :ok, location: @order }
     end
   end
 
