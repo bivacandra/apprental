@@ -3,9 +3,8 @@ class OrdersController < ApplicationController
 
   def index
     @orders = Order.all
-
     if current_user
-        @orders = Order.where(user_id: current_user.id)
+      @orders = Order.where(user_id: current_user.id)
     else
       @orders = []
     end
@@ -29,12 +28,9 @@ class OrdersController < ApplicationController
     end
 
     @order.status = 'pending'
-
     @order.charge = ((Integer(order_params[:return_time]).day)/(60*60*24)) * car.price
     if @order.save
-        # OrderNotificationMailer.order_notification_email(@order).deliver
         car.update_attribute(:status, 'pending')
-        # format.html {redirect_to cars_path, notice: 'Thank you for order'}
         result = process_payment(@order.transaction_id, @order.charge)
         redirect_to result.redirect_url
       else
@@ -76,11 +72,23 @@ class OrdersController < ApplicationController
   end
 
   private
+
   def set_order
     @order = Order.find(params[:id])
   end
 
   def order_params
-    params.require(:order).permit(:name, :address, :email, :car_id, :tel, :real_checkout_time, :return_time, :checkout_time, :guarantee, :charge, :transaction_id)
+    params.require(:order).permit(
+      :name,
+      :address,
+      :email,
+      :car_id,
+      :tel,
+      :real_checkout_time,
+      :return_time,
+      :checkout_time,
+      :guarantee,
+      :charge,
+      :transaction_id)
   end
 end
