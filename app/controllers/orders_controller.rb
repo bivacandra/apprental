@@ -20,25 +20,22 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     car = Car.find(@order.car_id)
-    @order.real_checkout_time = Time.now.strftime("%Y%m%dT%H%M%S")
+    time = Time.now.strftime("%Y%m%dT%H%M%S")
+    @order.transaction_id = "amca-#{time}"
+    @order.real_checkout_time = Time.zone.now
     @order.return_time = @order.checkout_time + Integer(order_params[:return_time]).day
     if current_user != nil
       @order.user_id = current_user.id
     end
 
-    if params[:selected_id]!='' and !params[:selected_id].nil?
-      @order.user_id=params[:selected_id]
-    end
-
-    @order.status = 'Pending'
+    @order.status = 'pending'
 
     @order.charge = ((Integer(order_params[:return_time]).day)/(60*60*24)) * car.price
-    binding.pry
     if @order.save
         # OrderNotificationMailer.order_notification_email(@order).deliver
-        car.update_attribute(:status, 'Pending')
+        car.update_attribute(:status, 'pending')
         # format.html {redirect_to cars_path, notice: 'Thank you for order'}
-        result = process_payment(@order.real_checkout_time, @order.charge)
+        result = process_payment(@order.transaction_id, @order.charge)
         redirect_to result.redirect_url
       else
         format.html {render :new}
@@ -79,13 +76,11 @@ class OrdersController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
   def set_order
     @order = Order.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def order_params
-    params.require(:order).permit(:name, :address, :email, :pay_type, :car_id, :tel, :real_checkout_time, :return_time, :checkout_time, :guarantee, :charge)
+    params.require(:order).permit(:name, :address, :email, :car_id, :tel, :real_checkout_time, :return_time, :checkout_time, :guarantee, :charge, :transaction_id)
   end
 end

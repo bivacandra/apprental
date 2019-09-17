@@ -5,9 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Order ID</th>
-      <th>Car ID</th>
-      <th>User ID</th>
+      <th>Transaction ID</th>
       <th>Name</th>
       <th>TEL</th>
       <th>Pay Type</th>
@@ -20,9 +18,7 @@
   <tbody>
     <% @orders.each do |order| %>
     <tr>
-      <td><%= order.id %></td>
-      <td><%= order.car_id %></td>
-      <td><%= order.user_id %></td>
+      <td><%= order.transaction_id %></td>
       <td><%= order.name %></td>
       <td><%= order.tel %></td>
       <td><%= order.pay_type %></td>

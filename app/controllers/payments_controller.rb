@@ -53,7 +53,14 @@ class PaymentsController < ApplicationController # :nodoc:
       puts "Payment amount: #{verified_data.data[:gross_amount]}"
       puts "--- Transaction callback ---"
 
-      render plain: "ok"
+      #update data status
+      order = Order.find_by(transaction_id: verified_data.data[:order_id])
+      order.update(status: verified_data.data[:transaction_status], pay_type: verified_data.data[:payment_type])
+
+      if order.status == "pending"
+        OrderNotificationMailer.order_notification_email(order).deliver
+      end
+
     else
       Veritrans.file_logger.info("Callback verification failed for order: " +
         "#{params[:order_id]} #{params[:transaction_status]}}\n" +

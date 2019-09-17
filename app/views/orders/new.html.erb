@@ -17,7 +17,7 @@
 
     <div class="field">
       <%= form.label :real_checkout_time %>
-      <%= form.datetime_select :real_checkout_time, id: :order_real_checkout_time, :default => {:hour => Time.now.hour, :minute => Time.now.min}, :disable => true %>
+      <%= form.datetime_select :real_checkout_time, id: :order_real_checkout_time, :default => {:hour => Time.now.hour, :minute => Time.now.min}, :disabled => true %>
     </div>
 
     <div>
@@ -57,10 +57,6 @@
       <%= form.select :guarantee, Order.guarantees.keys %>
     </div>
 
-    <div class="field">
-        <%= form.label :pay_type %>
-        <%= form.select :pay_type, Order.pay_types.keys %>
-      </div>
 
     <div>
       <%= form.hidden_field :car_id, id: :order_car_id, readonly: true %>
