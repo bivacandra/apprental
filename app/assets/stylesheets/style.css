@@ -377,7 +377,7 @@ a.slicknav_btn {
 }
 
 .book-a-car select.custom-select {
-	background-image: url("assets/img/caret-cion.png");
+	background-image: url(img/caret-cion.png);
 	background-position: right 13px center;
 	background-size: 12px auto;
 }
@@ -1663,7 +1663,7 @@ body,
 }
 
 .book-ur-car select.custom-select {
-	background-image: url("assets/img/caret-cion.png");
+	background-image: url(img/caret-cion.png);
 	background-position: right 12px center;
 	background-size: 12px auto;
 }
@@ -2218,7 +2218,7 @@ body,
 /*== Page Title CSS ==*/
 
 #page-title-area {
-	background-image: url("assets/img/page-title.jpg");
+	background-image: url(img/page-title.jpg);
 	background-position: center center;
 	background-size: cover;
 	padding-top: 220px;
@@ -2243,19 +2243,19 @@ body,
 }
 
 .car-thumb-1 {
-	background-image: url(assets/img/car/car-1.jpg);
+	background-image: url(img/car/car-1.jpg);
 }
 
 .car-thumb-2 {
-	background-image: url(assets/img/car/car-2.jpg);
+	background-image: url(img/car/car-2.jpg);
 }
 
 .car-thumb-3 {
-	background-image: url(assets/img/car/car-3.jpg);
+	background-image: url(img/car/car-3.jpg);
 }
 
 .car-thumb-4 {
-	background-image: url(assets/img/car/car-4.jpg);
+	background-image: url(img/car/car-4.jpg);
 }
 
 .car-list-thumb {

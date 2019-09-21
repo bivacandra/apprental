@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
 
   def index
     @orders = Order.all
+    
     if current_user
       @orders = Order.where(user_id: current_user.id)
     else
@@ -19,7 +20,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     car = Car.find(@order.car_id)
-    time = Time.now.strftime("%Y%m%dT%H%M%S")
+    time = Time.now.strftime('%Y%m%dT%H%M%S')
     @order.transaction_id = "amca-#{time}"
     @order.real_checkout_time = Time.zone.now
     @order.return_time = @order.checkout_time + Integer(order_params[:return_time]).day
@@ -43,9 +44,10 @@ class OrdersController < ApplicationController
     @result = Veritrans.create_widget_token(
       transaction_details: {
         order_id: order_id,
-        gross_amount: charge,
+        gross_amount: charge
       },
       customer_details: {
+        first_name: @order.name,
         email: @order.email
       },
       # expiry: {
@@ -68,6 +70,19 @@ class OrdersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to @order, notice: 'Order was succesfully returned.' }
       format.json { render :show, status: :ok, location: @order }
+    end
+  end
+
+  def show
+    @order = Order.find_by(id: params[:id])
+    respond_to do |format|
+      format.html
+      format.json
+      format.pdf { 
+        render pdf: 'Invoice',
+        template: 'orders/show.html.erb',
+        layout: 'pdf.html'
+      }
     end
   end
 

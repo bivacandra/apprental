@@ -1,4 +1,208 @@
-<h2>Orders</h2>
+    <!--== Page Title Area Start ==-->
+    <section id="page-title-area" class="section-padding overlay">
+      <div class="container">
+          <div class="row">
+              <!-- Page Title Start -->
+              <div class="col-lg-12">
+                  <div class="section-title  text-center">
+                      <h2>New Order</h2>
+                      <span class="title-line"><i class="fa fa-car"></i></span>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                  </div>
+              </div>
+              <!-- Page Title End -->
+          </div>
+      </div>
+  </section>
+  <!--== Page Title Area End ==-->
+
+  <section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Section Title Start -->
+            <div class="col-lg-12">
+                <div class="section-title  text-center">
+                    <h2>Car Information: <%= Car.find(@order.car_id).name %></h2>
+                    <span class="title-line"><i class="fa fa-car"></i></span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                </div>
+            </div>
+            <!-- Section Title End -->
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="mx-auto col-sm-6">
+                            <!-- form user info -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mb-0">User Information</h4>
+                                </div>
+                                <div class="card-body">
+
+                                    <%= form_with(model: @order, local: true) do |form| %>
+                                    <% if @order.errors.any? %>
+                                        <div id="error_explanation">
+                                          <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+                          
+                                          <ul>
+                                            <% order.errors.full_messages.each do |message| %>
+                                                <li><%= message %></li>
+                                            <% end %>
+                                          </ul>
+                                        </div>
+                                    <% end %>
+                          
+                                    <div class="form-group row">
+                                      <%= form.label :real_checkout, :class => "col-lg-3 col-form-label form-control-label"%>
+                                      <div class="col-lg-9">
+                                        <%= form.datetime_select :real_checkout_time, id: :order_real_checkout_time, :default => {:hour => Time.now.hour, :minute => Time.now.min}, :disabled => true %>
+                                      </div>
+                                    </div>
+                          
+                                    <div class="form-group row">
+                                      <%= form.label :date_rental, :class => 'col-lg-3 col-form-label form-control-label' %>
+                                      <div class="col-lg-9">
+                                      <%= form.datetime_select :checkout_time, id: :order_checkout_time, :default => {:hour => Time.zone.now.hour} %>
+                                      <p>*Silahkan lakukan pemesanan H+1</p>
+                                      </div>
+                                    </div>
+                          
+                                    <div class="form-group row">
+                                      <%= form.label :Duration, :class => 'col-lg-3 col-form-label form-control-label' %>
+                                      <div class="col-lg-9">
+                                        <%= form.select :return_time, options_for_select([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1), {}, { :class => 'form-control', :prompt => ''}  %>
+                                        <p>*Day</p>
+                                      </div>
+                                    </div>
+                          
+                                    <div class="form-group row">
+                                      <%= form.label :name, :class => 'col-lg-3 col-form-label form-control-label' %>
+                                      <div class="col-lg-9">
+                                      <%= form.text_field :name, id: :order_name, class: 'form-control' %>
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <%= form.label :telphone, :class => 'col-lg-3 col-form-label form-control-label' %>
+                                        <div class="col-lg-9">
+                                            <%= form.text_field :tel, id: :order_tel, class: 'form-control' %>
+                                        </div>
+                                      </div>
+                          
+                                    <div class="form-group row">
+                                        <%= form.label :email, :class => 'col-lg-3 col-form-label form-control-label' %>
+                                        <div class="col-lg-9">
+                                        <%= form.text_field :email, id: :order_email, class: 'form-control' %>
+                                      </div>
+                                    </div>
+                          
+                                    <div class="form-group row">
+                                        <%= form.label :address, :class => 'col-lg-3 col-form-label form-control-label' %>
+                                        <div class="col-lg-9">
+                                        <%= form.text_field :address, id: :order_address, class: 'form-control' %>
+                                      </div>
+                                    </div>
+                          
+                                    <div class="form-group row">
+                                      <%= form.label :guarantee, :class => 'col-lg-3 col-form-label form-control-label' %>
+                                      <div class="col-lg-9">
+                                      <%= form.select :guarantee, Order.guarantees.keys, {}, {:class => "form-control"} %>
+                                    </div>
+                                    </div>
+                          
+                          
+                                    <div>
+                                      <%= form.hidden_field :car_id, id: :order_car_id, readonly: true %>
+                                    </div>  
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-9">
+                                          <%= form.submit "Confirm Order", data: { confirm: "Are you sure?" }, :class => 'btn rent-btn' %>
+                                        </div>
+                                    </div>
+                                <% end %>
+                                
+                                </div>
+                            </div>
+                            <!-- /form user info -->
+                </div>
+            </div>
+        </div>
+
+      <!-- <div class="row">
+        <div class="col-lg-12">
+          <div class="text-left">
+          <%= form_with(model: @order, local: true) do |form| %>
+          <% if @order.errors.any? %>
+              <div id="error_explanation">
+                <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+                <ul>
+                  <% order.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+          <% end %>
+
+          <div class="field">
+            <%= form.label :real_checkout_time, :class => "col-sm-2 col-form-label"%>
+            <%= form.datetime_select :real_checkout_time, id: :order_real_checkout_time, :default => {:hour => Time.now.hour, :minute => Time.now.min}, :disabled => true, :class => "form-control" %>
+          </div>
+
+          <div>
+            <%= form.label :date_rental, :class => 'col-sm-2 col-form-label' %>
+            <%= form.datetime_select :checkout_time, id: :order_checkout_time, :default => {:hour => Time.zone.now.hour} %>
+            <p>*Silahkan order 1 hari sebelum melakukan checkout</p>
+          </div>
+
+          <div class="field">
+            <%= form.label :rental_periode, :class => 'col-sm-2 col-form-label' %>
+            <%= form.select :return_time,  options_for_select([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1), {:class => 'form-control', :prompt => ''}  %>
+            <%= form.label :day %>
+          </div>
+
+          <div>
+            <%= form.label :name, :class => 'col-sm-2 col-form-label' %>
+            <%= form.text_field :name, id: :order_name %>
+          </div>
+
+          <div>
+              <%= form.label :tel, :class => 'col-sm-2 col-form-label' %>
+              <%= form.text_field :tel, id: :order_tel %>
+          </div>
+
+          <div>
+              <%= form.label :email, :class => 'col-sm-2 col-form-label' %>
+              <%= form.text_field :email, id: :order_email %>
+          </div>
+
+          <div>
+              <%= form.label :address, :class => 'col-sm-2 col-form-label' %>
+              <%= form.text_field :address, id: :order_address %>
+          </div>
+
+          <div>
+            <%= form.label :guarantee, :class => 'col-sm-2 col-form-label' %>
+            <%= form.select :guarantee, Order.guarantees.keys, :class => "form-control" %>
+          </div>
+
+
+          <div>
+            <%= form.hidden_field :car_id, id: :order_car_id, readonly: true %>
+          </div>  
+
+          <div class="actions">
+            <%= form.submit "Confirm Order", data: { confirm: "Are you sure?" }, :class => 'rent-btn' %>
+          </div>
+      <% end %>
+          </div>
+      </div>
+      </div> -->
+    </div>
+  </section>
+
+<!-- <h2>Orders</h2>
 
 <h3>Car Information: <%= Car.find(@order.car_id).name %></h3>
 
@@ -65,4 +269,4 @@
     <div class="actions">
       <%= form.submit "Confirm Order", data: { confirm: "Are you sure?" } %>
     </div>
-<% end %>
+<% end %> -->

@@ -15,10 +15,10 @@ ActiveRecord::Schema.define(version: 2019_09_17_063006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cars", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "image"
+  create_table 'cars', force: :cascade do |t|
+    t.string 'name'
+    t.text 'description'
+    t.string 'image'
     t.decimal "price", precision: 10, scale: 2
     t.string "status"
     t.string "license_plate"

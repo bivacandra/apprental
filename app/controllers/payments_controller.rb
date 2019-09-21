@@ -57,7 +57,7 @@ class PaymentsController < ApplicationController # :nodoc:
       order = Order.find_by(transaction_id: verified_data.data[:order_id])
       order.update(status: verified_data.data[:transaction_status], pay_type: verified_data.data[:payment_type])
 
-      if order.status == "pending"
+      if order.status == 'settlement'
         OrderNotificationMailer.order_notification_email(order).deliver
       end
 

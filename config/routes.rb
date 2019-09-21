@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :cars
   resources :orders
   post 'orders/new'
+  root to: 'cars#index'
 
   match "/payments/receive_webhook" => "payments#receive_webhook", via: [:post]
 

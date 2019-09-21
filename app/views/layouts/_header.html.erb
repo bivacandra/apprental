@@ -43,7 +43,7 @@
         <div class="row">
             <!--== Logo Start ==-->
             <div class="col-lg-4">
-                <%= link_to cars_path do %>
+                <%= link_to cars_path, method: :get do %>
                 <%= image_tag("img/logo.png", :alt => "JSOFT", :class => "logo") %>
                 <% end %>
             </div>
@@ -53,18 +53,20 @@
             <div class="col-lg-8 d-none d-xl-block">
                 <nav class="mainmenu alignright">
                     <ul>
-                        
-                        <li><%= link_to 'Home', cars_path %></li>
+                        <li><%= link_to 'Home', cars_path, method: :get %></li>
                         <li><%= link_to 'About', target: "_blank" %></li>
-                        <li><%= link_to 'Cars Without Side Bar', target: "_blank" %></li>
                         <li><%= link_to 'Contact', target: "_blank" %></li>
+                        <li><%= link_to 'Term', target: "_blank" %></li>
                         <% if current_user %>
-                        <li><%= link_to  "Sign Out", destroy_user_session_path, method: :delete %></li>
-                        <li><%= link_to "History", orders_path %></li>
-                        <li><%= link_to "Edit User", edit_user_registration_path %></li>
+                        <li><a href=""><%= current_user.email %></a>
+                                <ul>
+                                <li><%= link_to  "Sign Out", destroy_user_session_path, method: :delete %></li>
+                                <li><%= link_to "History", orders_path, method: :get %></li>
+                                <li><%= link_to "Edit User", edit_user_registration_path, method: :get %></li>
+                                </ul>
+                        </li>
                         <% else %>
-                        <li><%= link_to  "Sign In", new_user_session_path %></li>
-                        <li><%= link_to  "Sign Up", new_user_registration_path %></li>
+                        <li><%= link_to  "Sign In", new_user_session_path, method: :get %></li>
                         <% end %>
                     </ul>
                 </nav>
