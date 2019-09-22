@@ -2258,6 +2258,11 @@ body,
 	background-image: url(img/car/car-4.jpg);
 }
 
+.image-size {
+	width: 100%;
+	height: 100%;
+}
+
 .car-list-thumb {
 	background-size: cover;
 	background-position: center center;

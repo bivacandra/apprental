@@ -32,6 +32,7 @@ class OrdersController < ApplicationController
     @order.charge = ((Integer(order_params[:return_time]).day)/(60*60*24)) * car.price
     if @order.save
         car.update_attribute(:status, 'pending')
+        OrderNotificationMailer.order_notification_email(@order).deliver
         result = process_payment(@order.transaction_id, @order.charge)
         redirect_to result.redirect_url
       else

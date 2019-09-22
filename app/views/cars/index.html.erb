@@ -107,7 +107,7 @@
                                 <% @cars.each do |car| %>
                                 <div class="col-lg-6 col-md-6">
                                   <div class="single-car-wrap">
-                                      <div class="car-list-thumb car-thumb-1"></div>
+                                      <div class="car-list-thumb"><img class="image-size" src="<%= car.image %>"></div>
                                         <div class="car-list-info without-bar">
                                             <h2><%= car.name %></h2>
                                             <h5><%= number_to_currency(car.price, unit: "Rp ") %></h5>
@@ -120,7 +120,7 @@
                                                 <i class="fa fa-star"></i>
                                             </p>
 
-                                            <%= link_to  "Detail", car_path(car), class: 'rent-btn' %>
+                                            <%= link_to  "Detail", car_path(car), class: 'rent-btn', method: :get %>
                                             <%= link_to  "Checkout", new_order_path(:car_id => car.id), :method => :post, class: 'rent-btn' %>
                                         </div>
                                   </div>
