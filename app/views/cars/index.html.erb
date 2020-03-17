@@ -10,56 +10,22 @@
                                 <p>AYO RENTAL SEKARANG JUGA <br> DAPATKAN BONUS UNTUK PEMESANAN HARI INI</p>
 
                                 <div class="book-ur-car">
-                                    <!-- <form action="index2.html">
-                                        <div class="pick-location bookinput-item">
-                                            <select class="custom-select">
-                                              <option selected>Pick Location</option>
-                                              <option value="1">Dhaka</option>
-                                              <option value="2">Comilla</option>
-                                              <option value="3">Barishal</option>
-                                              <option value="3">Rangpur</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="pick-date bookinput-item">
-                                            <input id="startDate2" placeholder="Pick Date" />
-                                        </div>
-
-                                        <div class="retern-date bookinput-item">
-                                            <input id="endDate2" placeholder="Return Date" />
-                                        </div>
-
-                                        <div class="car-choose bookinput-item">
-                                            <select class="custom-select">
-                                              <option selected>Choose Car</option>
-                                              <option value="1">BMW</option>
-                                              <option value="2">Audi</option>
-                                              <option value="3">Lexus</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="bookcar-btn bookinput-item">
-                                            <button type="submit">Book Car</button>
-                                        </div>
-                                    </form> -->
-
                                     <%= form_tag(cars_path, :method => "get", id: "search-form") do %>
-                                    
                                     <div class="bookinput-item car-choose">
-                                    <%= select_tag :search1, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.name}, :name, :name), {:class => 'custom-select', :prompt => 'Choose Car'} %>
+                                        <%= select_tag :search1, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.name}, :name, :name), {:class => 'custom-select', :prompt => 'Choose Car'} %>
                                     </div>
                                     <div class="bookinput-item">
-                                    <%= select_tag :search2, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.transmission}, :transmission, :transmission), {:class => 'custom-select', :prompt => 'Transmission'} %>
+                                        <%= select_tag :search2, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.transmission}, :transmission, :transmission), {:class => 'custom-select', :prompt => 'Transmission'} %>
                                     </div>
                                     <div class="bookinput-item">
-                                    <%= select_tag :search3, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.model}, :model, :model), {:class => 'custom-select', :prompt => 'Model'} %>
+                                        <%= select_tag :search3, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.model}, :model, :model), {:class => 'custom-select', :prompt => 'Model'} %>
                                     </div>
                                     <div class="bookinput-item">
-                                    <%= select_tag :search4, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.manufactor}, :manufactor, :manufactor), {:class => 'custom-select', :prompt => 'Manufactor'} %>
+                                        <%= select_tag :search4, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.manufactor}, :manufactor, :manufactor), {:class => 'custom-select', :prompt => 'Manufactor'} %>
                                     </div>
                                     <div class="bookcar-btn bookinput-item">
-                                            <button type="submit">Book Car</button>
-                                        </div>
+                                        <button type="submit">Book Car</button>
+                                    </div>
                                     <% end %>
                                 </div>
                             </div>
@@ -71,106 +37,44 @@
     </section>
     <!--== SlideshowBg Area End ==-->
 
-        <!--== Car List Area Start ==-->
-        <section id="car-list-area" class="section-padding">
-            <div class="container">
-                <div class="row">
-                    <!-- Car List Content Start -->
-                    <div class="col-lg-12">
-                        <div class="car-list-content">
-                            <div class="row">
-                                <!-- Single Car Start -->
-                                <!-- <div class="col-lg-6 col-md-6">
-                                    <div class="single-car-wrap">
-                                        <div class="car-list-thumb car-thumb-1"></div>
-                                        <div class="car-list-info without-bar">
-                                            <h2><a href="#">Aston Martin One-77</a></h2>
-                                            <h5>39$ Rent /per a day</h5>
-                                            <p>Vivamus eget nibh. Etiam cursus leo vel metus. Nulla facilisi. Aenean inorci luctus et ultrices posuere cubilia.</p>
-                                            <ul class="car-info-list">
-                                                <li>AC</li>
-                                                <li>Diesel</li>
-                                                <li>Auto</li>
-                                            </ul>
-                                            <p class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star unmark"></i>
-                                            </p>
-                                            <a href="#" class="rent-btn">Book It</a>
-                                        </div>
+    <!--== Car List Area Start ==-->
+    <section id="car-list-area" class="section-padding">
+        <div class="container">
+            <div class="row">
+                <!-- Car List Content Start -->
+                <div class="col-lg-12">
+                    <div class="car-list-content">
+                        <div class="row">
+                            <% @cars.each do |car| %>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="single-car-wrap">
+                                    <div class="car-list-thumb"><img class="image-size" src="<%= car.image %>"></div>
+                                    <div class="car-list-info without-bar">
+                                        <h2><%= car.name %></h2>
+                                        <h5><%= number_to_currency(car.price, unit: "Rp ") %></h5>
+                                        <p><%= car.description %></p>
+                                        <p class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </p>
+
+                                        <%= link_to  "Detail", car_path(car), class: 'rent-btn', method: :get %>
+                                        <%= link_to  "Checkout", new_order_path(:car_id => car.id), :method => :post, class: 'rent-btn' %>
                                     </div>
-                                </div> -->
-
-                                <% @cars.each do |car| %>
-                                <div class="col-lg-6 col-md-6">
-                                  <div class="single-car-wrap">
-                                      <div class="car-list-thumb"><img class="image-size" src="<%= car.image %>"></div>
-                                        <div class="car-list-info without-bar">
-                                            <h2><%= car.name %></h2>
-                                            <h5><%= number_to_currency(car.price, unit: "Rp ") %></h5>
-                                            <p><%= car.description %></p>
-                                            <p class="rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </p>
-
-                                            <%= link_to  "Detail", car_path(car), class: 'rent-btn', method: :get %>
-                                            <%= link_to  "Checkout", new_order_path(:car_id => car.id), :method => :post, class: 'rent-btn' %>
-                                        </div>
-                                  </div>
                                 </div>
-                                <% end %>
-                                <!-- Single Car End -->
                             </div>
+                            <% end %>
+                            <!-- Single Car End -->
                         </div>
-    
-                        <!-- Page Pagination Start -->
-                        <!-- <div class="page-pagi">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul>
-                            </nav>
-                        </div> -->
-                        <%= paginate @cars %>
-                        <!-- Page Pagination End -->
                     </div>
-                    <!-- Car List Content End -->
+                    <%= paginate @cars %>
+                    <!-- Page Pagination End -->
                 </div>
+                <!-- Car List Content End -->
             </div>
-        </section>
-        <!--== Car List Area End ==-->
-
-
-<!-- <h2>List Car</h2>
-<%= form_tag(cars_path, :method => "get", id: "search-form") do %>
-  <%= 'Name' %><%= select_tag :search1, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.name}, :name, :name), {:class => 'form-control', :prompt => ''} %>
-  <%= 'Transmission' %><%= select_tag :search2, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.transmission}, :transmission, :transmission), {:class => 'form-control', :prompt => ''} %>
-  <%= 'Model' %><%= select_tag :search3, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.model}, :model, :model), {:class => 'form-control', :prompt => ''} %>
-  <%= 'Manufactor' %><%= select_tag :search3, options_from_collection_for_select(Car.all.to_a.uniq {|o| o.model}, :manufactor, :manufactor), {:class => 'form-control', :prompt => ''} %>
-  <%= submit_tag "Search", :name => nil %>
-<% end %>
-
-
-<ol>
-<% @cars.each do |car| %>
-  <li><%= car.name %>,
-  <%= car.description %>,
-  <%= car.price %>,
-  <%= car.image %></li>
-  <%= link_to  "Detail", car_path(car) %>
-  <%= link_to  "Checkout", new_order_path(:car_id => car.id), :method => :post %>
-<% end %>
-</ol> -->
+        </div>
+    </section>
+    <!--== Car List Area End ==-->
