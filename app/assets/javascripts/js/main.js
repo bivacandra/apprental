@@ -162,7 +162,7 @@
             animationDuration: 20000,
             slides: [
                 {
-                    src: 'assets/img/slider-img/slider-img-1.jpg'
+                    src: 'https://i.imgur.com/BXsnxkf.jpg'
                 },
                 {
                     src: 'assets/img/slider-img/slider-img-2.jpg'
